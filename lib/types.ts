@@ -191,11 +191,11 @@ export const DEFAULT_COLUMNS = [
 ];
 
 export const PROJECT_COLORS = [
-  "#0F766E",
-  "#1D4ED8",
+  "#16A34A",
+  "#111318",
+  "#2563EB",
+  "#C8F542",
+  "#FF8A73",
   "#7C3AED",
-  "#C2410C",
-  "#BE185D",
-  "#0369A1",
-  "#365314",
+  "#0F766E",
 ];

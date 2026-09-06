@@ -52,11 +52,11 @@ export function LaunchPanel({ projectId }: { projectId: string }) {
         <p className="mb-4 text-sm font-medium">Embudo de lanzamiento</p>
         <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {metrics.funnel.map((step) => (
-            <div key={step.status} className="rounded-xl bg-ink-50 p-3">
+            <div key={step.status} className="rounded-xl bg-canvas p-3">
               <p className="text-xs text-ink-500">{LEAD_STATUS_LABEL[step.status]}</p>
               <p className="mt-1 font-display text-2xl">{step.count}</p>
               <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink-100">
-                <div className="h-full bg-teal" style={{ width: `${percent(step.count, metrics.totalLeads)}%` }} />
+                <div className="h-full bg-lime" style={{ width: `${percent(step.count, metrics.totalLeads)}%` }} />
               </div>
             </div>
           ))}
@@ -90,7 +90,7 @@ export function LaunchPanel({ projectId }: { projectId: string }) {
         </div>
       </div>
 
-      <div className="hidden overflow-hidden rounded-2xl border border-ink-100 bg-white md:block">
+      <div className="hidden overflow-hidden rounded-xl border border-ink-100 bg-white md:block">
         <table className="w-full text-sm">
           <thead className="bg-ink-50 text-left text-xs uppercase tracking-wide text-ink-500">
             <tr>
@@ -107,7 +107,7 @@ export function LaunchPanel({ projectId }: { projectId: string }) {
               return (
                 <tr
                   key={lead.id}
-                  className="cursor-pointer border-t border-ink-50 hover:bg-sand/60"
+                  className="cursor-pointer border-t border-ink-50 hover:bg-canvas"
                   onClick={() => setSelected(lead)}
                 >
                   <td className="px-4 py-3">
@@ -137,7 +137,7 @@ export function LaunchPanel({ projectId }: { projectId: string }) {
           <button
             key={lead.id}
             onClick={() => setSelected(lead)}
-            className="rounded-2xl border border-ink-100 bg-white p-4 text-left"
+            className="rounded-xl border border-ink-100 bg-white p-4 text-left shadow-card"
           >
             <div className="flex items-start justify-between gap-2">
               <div>
@@ -218,7 +218,7 @@ function ImportModal({
         />
         {error ? <p className="text-sm text-red-700">{error}</p> : null}
         {imported != null ? (
-          <p className="text-sm text-teal">Se importaron {imported} contactos nuevos (los duplicados se omiten).</p>
+          <p className="text-sm font-medium text-lime-ink">Se importaron {imported} contactos nuevos (los duplicados se omiten).</p>
         ) : null}
         {rows.length ? (
           <div className="max-h-64 overflow-auto rounded-xl border border-ink-100">
