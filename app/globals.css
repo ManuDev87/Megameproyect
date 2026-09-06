@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  @apply bg-sand text-ink-900 antialiased;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c9d2dc transparent;
+}
+
+.kanban-scroll {
+  scrollbar-width: thin;
+}
+
+.kanban-scroll::-webkit-scrollbar {
+  height: 10px;
+}
+
+.kanban-scroll::-webkit-scrollbar-thumb {
+  background: #c9d2dc;
+  border-radius: 999px;
+}
+
+::selection {
+  background: #ccfbf1;
+  color: #0e151c;
+}

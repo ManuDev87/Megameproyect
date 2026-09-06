@@ -1,0 +1,33 @@
+import type { Metadata } from "next";
+import { Manrope, Syne } from "next/font/google";
+import "./globals.css";
+import { AppShell } from "@/components/shell/AppShell";
+import { StoreHydration } from "@/components/providers/StoreHydration";
+
+const manrope = Manrope({
+  subsets: ["latin"],
+  variable: "--font-manrope",
+});
+
+const syne = Syne({
+  subsets: ["latin"],
+  variable: "--font-syne",
+});
+
+export const metadata: Metadata = {
+  title: "Megame — proyectos tecnológicos",
+  description:
+    "Tablero de producto, seguimiento de lanzamiento con importación Excel y píxeles de marketing.",
+};
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="es">
+      <body className={`${manrope.variable} ${syne.variable} font-sans`}>
+        <StoreHydration>
+          <AppShell>{children}</AppShell>
+        </StoreHydration>
+      </body>
+    </html>
+  );
+}
