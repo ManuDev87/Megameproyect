@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { Download, Phone, Plus, Upload } from "lucide-react";
 import type { CallOutcome, Lead, LeadStatus } from "@/lib/types";
 import { CALL_OUTCOME_LABEL, LEAD_STATUS_LABEL } from "@/lib/types";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, useProjectData } from "@/lib/store";
 import { computeLaunchMetrics } from "@/lib/metrics";
 import { downloadTemplate, parseLeadWorkbook, parsedRowsToLeads, type ParsedLeadRow } from "@/lib/excel";
 import { Badge, Button, Card, Field, Input, Modal, Select, Textarea } from "@/components/ui/primitives";
@@ -20,8 +20,7 @@ const STATUS_TONE: Record<LeadStatus, "neutral" | "teal" | "amber" | "red" | "vi
 };
 
 export function LaunchPanel({ projectId }: { projectId: string }) {
-  const leads = useAppStore((state) => state.leads.filter((lead) => lead.projectId === projectId));
-  const calls = useAppStore((state) => state.calls.filter((call) => call.projectId === projectId));
+  const { leads, calls } = useProjectData(projectId);
   const metrics = useMemo(() => computeLaunchMetrics(leads, calls), [leads, calls]);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<LeadStatus | "todos">("todos");
@@ -247,7 +246,7 @@ function ImportModal({
         ) : null}
         <div className="flex justify-end gap-2">
           <Button variant="secondary" onClick={onClose}>
-            Cerrar
+            Cancelar
           </Button>
           <Button
             disabled={!rows.length}
@@ -341,8 +340,13 @@ function LeadDrawer({
   const updateLead = useAppStore((state) => state.updateLead);
   const deleteLead = useAppStore((state) => state.deleteLead);
   const addCall = useAppStore((state) => state.addCall);
-  const calls = useAppStore((state) =>
-    state.calls.filter((call) => call.leadId === lead?.id).sort((a, b) => b.date.localeCompare(a.date)),
+  const allCalls = useAppStore((state) => state.calls);
+  const calls = useMemo(
+    () =>
+      allCalls
+        .filter((call) => call.leadId === lead?.id)
+        .sort((a, b) => b.date.localeCompare(a.date)),
+    [allCalls, lead?.id],
   );
   const [outcome, setOutcome] = useState<CallOutcome>("hablado");
   const [duration, setDuration] = useState("8");

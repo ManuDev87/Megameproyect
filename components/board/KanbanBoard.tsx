@@ -21,7 +21,7 @@ import { Plus, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { BoardCard, BoardColumn, Priority } from "@/lib/types";
 import { PRIORITY_LABEL } from "@/lib/types";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, useProjectData } from "@/lib/store";
 import { Badge, Button, Field, Input, Modal, Select, Textarea } from "@/components/ui/primitives";
 import { clsx, formatDate } from "@/lib/format";
 
@@ -33,10 +33,7 @@ const PRIORITY_TONE: Record<Priority, "neutral" | "teal" | "amber" | "red"> = {
 };
 
 export function KanbanBoard({ projectId }: { projectId: string }) {
-  const columns = useAppStore((state) =>
-    state.columns.filter((column) => column.projectId === projectId).sort((a, b) => a.order - b.order),
-  );
-  const cards = useAppStore((state) => state.cards.filter((card) => card.projectId === projectId));
+  const { columns, cards } = useProjectData(projectId);
   const moveCard = useAppStore((state) => state.moveCard);
   const addColumn = useAppStore((state) => state.addColumn);
   const [activeId, setActiveId] = useState<string | null>(null);

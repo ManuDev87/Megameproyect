@@ -5,14 +5,13 @@ import { Copy, ExternalLink, Plus, Trash2 } from "lucide-react";
 import type { PixelProvider, TrackingPixel } from "@/lib/types";
 import { PIXEL_PROVIDER_LABEL } from "@/lib/types";
 import { PIXEL_HELP, generatePixelSnippet, providerScriptSrc } from "@/lib/pixels";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, useProjectData } from "@/lib/store";
 import { Badge, Button, Card, Field, Input, Modal, Select, Textarea } from "@/components/ui/primitives";
 import { formatDateTime } from "@/lib/format";
 import Link from "next/link";
 
 export function MarketingPanel({ projectId }: { projectId: string }) {
-  const pixels = useAppStore((state) => state.pixels.filter((pixel) => pixel.projectId === projectId));
-  const events = useAppStore((state) => state.events.filter((event) => event.projectId === projectId));
+  const { pixels, events } = useProjectData(projectId);
   const updatePixel = useAppStore((state) => state.updatePixel);
   const deletePixel = useAppStore((state) => state.deletePixel);
   const trackEvent = useAppStore((state) => state.trackEvent);

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo } from "react";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type {
@@ -353,4 +354,27 @@ export const useAppStore = create<Store>()(
 
 export function useProject(projectId?: string) {
   return useAppStore((state) => state.projects.find((project) => project.id === projectId));
+}
+
+export function useProjectData(projectId: string) {
+  const columns = useAppStore((state) => state.columns);
+  const cards = useAppStore((state) => state.cards);
+  const leads = useAppStore((state) => state.leads);
+  const calls = useAppStore((state) => state.calls);
+  const pixels = useAppStore((state) => state.pixels);
+  const events = useAppStore((state) => state.events);
+
+  return useMemo(
+    () => ({
+      columns: columns
+        .filter((column) => column.projectId === projectId)
+        .sort((a, b) => a.order - b.order),
+      cards: cards.filter((card) => card.projectId === projectId),
+      leads: leads.filter((lead) => lead.projectId === projectId),
+      calls: calls.filter((call) => call.projectId === projectId),
+      pixels: pixels.filter((pixel) => pixel.projectId === projectId),
+      events: events.filter((event) => event.projectId === projectId),
+    }),
+    [projectId, columns, cards, leads, calls, pixels, events],
+  );
 }

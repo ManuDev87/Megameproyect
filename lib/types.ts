@@ -196,6 +196,6 @@ export const PROJECT_COLORS = [
   "#7C3AED",
   "#C2410C",
   "#BE185D",
-  "#0F766E",
+  "#0369A1",
   "#365314",
 ];

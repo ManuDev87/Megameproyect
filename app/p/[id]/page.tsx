@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, useProjectData } from "@/lib/store";
 import { PixelScripts } from "@/components/marketing/PixelScripts";
 import { PIXEL_PROVIDER_LABEL } from "@/lib/types";
 
@@ -10,7 +10,7 @@ export default function PublicLandingPage() {
   const params = useParams<{ id: string }>();
   const hydrated = useAppStore((state) => state.hydrated);
   const project = useAppStore((state) => state.projects.find((item) => item.id === params.id));
-  const pixels = useAppStore((state) => state.pixels.filter((pixel) => pixel.projectId === params.id));
+  const { pixels } = useProjectData(params.id);
   const enabled = pixels.filter((pixel) => pixel.enabled);
 
   if (!hydrated) {

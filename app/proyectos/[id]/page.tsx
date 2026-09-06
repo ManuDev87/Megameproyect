@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { KanbanSquare, Megaphone, PhoneCall } from "lucide-react";
-import { useAppStore } from "@/lib/store";
+import { useAppStore, useProjectData } from "@/lib/store";
 import { ProjectForm } from "@/components/projects/ProjectForm";
 import { Badge, Card } from "@/components/ui/primitives";
 import { PROJECT_STATUS_LABEL } from "@/lib/types";
@@ -13,10 +13,7 @@ export default function ProjectOverviewPage() {
   const params = useParams<{ id: string }>();
   const router = useRouter();
   const project = useAppStore((state) => state.projects.find((item) => item.id === params.id));
-  const leads = useAppStore((state) => state.leads.filter((lead) => lead.projectId === params.id));
-  const calls = useAppStore((state) => state.calls.filter((call) => call.projectId === params.id));
-  const cards = useAppStore((state) => state.cards.filter((card) => card.projectId === params.id));
-  const pixels = useAppStore((state) => state.pixels.filter((pixel) => pixel.projectId === params.id));
+  const { leads, calls, cards, pixels } = useProjectData(params.id);
   const deleteProject = useAppStore((state) => state.deleteProject);
   const hydrated = useAppStore((state) => state.hydrated);
 

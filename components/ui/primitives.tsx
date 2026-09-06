@@ -144,7 +144,7 @@ export function Modal({
   if (!open) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink-950/40 p-0 sm:items-center sm:p-4">
-      <button className="absolute inset-0" onClick={onClose} aria-label="Cerrar" />
+      <button className="absolute inset-0" onClick={onClose} aria-label="Cerrar ventana" />
       <div
         className={clsx(
           "relative z-10 max-h-[92vh] w-full overflow-y-auto rounded-t-3xl bg-white p-5 shadow-lift sm:rounded-3xl sm:p-6",
