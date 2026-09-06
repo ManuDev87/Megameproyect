@@ -1,17 +1,12 @@
 import type { Metadata } from "next";
-import { Manrope, Syne } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 import { AppShell } from "@/components/shell/AppShell";
 import { StoreHydration } from "@/components/providers/StoreHydration";
 
-const manrope = Manrope({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-manrope",
-});
-
-const syne = Syne({
-  subsets: ["latin"],
-  variable: "--font-syne",
+  variable: "--font-outfit",
 });
 
 export const metadata: Metadata = {
@@ -23,7 +18,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="es">
-      <body className={`${manrope.variable} ${syne.variable} font-sans`}>
+      <body className={`${outfit.variable} font-sans`}>
         <StoreHydration>
           <AppShell>{children}</AppShell>
         </StoreHydration>

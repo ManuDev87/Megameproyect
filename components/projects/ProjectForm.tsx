@@ -66,7 +66,7 @@ export function ProjectForm({ project }: { project?: Project }) {
               className="h-8 w-8 rounded-full border-2"
               style={{
                 background: value,
-                borderColor: color === value ? "#0E151C" : "transparent",
+                borderColor: color === value ? "#111318" : "transparent",
               }}
               aria-label={value}
             />
