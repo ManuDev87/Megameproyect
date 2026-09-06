@@ -69,9 +69,13 @@ export default function DashboardPage() {
           >
             <Plus size={16} /> Crear proyecto
           </Link>
-          <Button variant="secondary" className="border-white/20 bg-transparent text-white hover:bg-white/10" onClick={loadDemo}>
+          <button
+            type="button"
+            onClick={loadDemo}
+            className="inline-flex items-center rounded-xl border border-white/35 px-4 py-2.5 text-sm font-semibold text-white hover:bg-white/10"
+          >
             Cargar demo
-          </Button>
+          </button>
           <Button variant="ghost" className="text-ink-300 hover:bg-white/10 hover:text-white" onClick={resetAll}>
             Vaciar datos
           </Button>
