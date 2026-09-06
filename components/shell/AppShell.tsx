@@ -55,13 +55,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="flex h-full flex-col px-4 py-5">
           <div className="flex items-center justify-between px-2">
             <Link href="/" className="font-display text-[22px] font-semibold tracking-tight" onClick={() => setOpen(false)}>
-              Mega<span className="text-lime">me</span>
+              Pix<span className="text-lime">lanz</span>
             </Link>
             <button className="lg:hidden" onClick={() => setOpen(false)} aria-label="Cerrar menú">
               <X size={20} />
             </button>
           </div>
-          <p className="mt-1 px-2 text-xs text-ink-400">Proyectos tecnológicos</p>
+          <p className="mt-1 px-2 text-xs text-ink-400">Tablero + lanzamiento</p>
 
           <nav className="mt-8 space-y-1">
             {NAV.map((item) => (

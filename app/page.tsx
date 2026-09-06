@@ -53,7 +53,7 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <section className="hero-grid overflow-hidden rounded-2xl px-6 py-8 text-white md:px-10 md:py-11">
         <p className="inline-flex rounded-md bg-lime px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-ink-950">
-          Megame
+          Pixlanz
         </p>
         <h1 className="mt-4 max-w-2xl font-display text-3xl font-semibold leading-tight md:text-5xl">
           Lleva el producto, las llamadas y el píxel en el mismo tablero.

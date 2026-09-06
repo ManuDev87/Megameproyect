@@ -34,7 +34,7 @@ export default function PublicLandingPage() {
       <PixelScripts projectId={project.id} pixels={pixels} />
       <header className="mx-auto flex max-w-5xl items-center justify-between px-6 py-6">
         <p className="font-display text-lg font-semibold">
-          Mega<span className="text-lime">me</span>
+          Pix<span className="text-lime">lanz</span>
         </p>
         <Link href={`/proyectos/${project.id}/marketing`} className="text-sm text-ink-300 hover:text-white">
           Volver al panel
@@ -47,7 +47,7 @@ export default function PublicLandingPage() {
         <h1 className="mt-5 max-w-3xl font-display text-4xl font-semibold leading-tight md:text-6xl">{project.name}</h1>
         <p className="mt-6 max-w-xl text-lg text-ink-300">{project.description}</p>
         <a
-          href={`mailto:hola@megame.app?subject=${encodeURIComponent("Quiero " + project.name)}`}
+          href={`mailto:hola@pixlanz.app?subject=${encodeURIComponent("Quiero " + project.name)}`}
           className="mt-8 inline-flex rounded-xl bg-lime px-6 py-3 text-sm font-semibold text-ink-950"
         >
           Pedir una demo

@@ -1,6 +1,6 @@
-# Megame
+# Pixlanz
 
-Aplicación para **llevar proyectos tecnológicos** de la idea al lanzamiento.
+Tablero tipo Trello + CRM de lanzamiento + píxeles de marketing, para llevar proyectos tecnológicos de la idea al go-live.
 
 ## Qué incluye
 

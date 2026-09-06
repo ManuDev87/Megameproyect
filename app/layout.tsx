@@ -10,7 +10,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Megame — proyectos tecnológicos",
+  title: "Pixlanz — tablero, lanzamiento y marketing",
   description:
     "Tablero de producto, seguimiento de lanzamiento con importación Excel y píxeles de marketing.",
 };
