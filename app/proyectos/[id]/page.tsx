@@ -28,9 +28,9 @@ export default function ProjectOverviewPage() {
         <div>
           <div className="flex items-center gap-2">
             <span className="h-3 w-3 rounded-full" style={{ background: project.color }} />
-            <Badge tone="teal">{PROJECT_STATUS_LABEL[project.status]}</Badge>
+            <Badge tone="blue">{PROJECT_STATUS_LABEL[project.status]}</Badge>
           </div>
-          <h1 className="mt-2 font-display text-3xl md:text-4xl">{project.name}</h1>
+          <h1 className="mt-2 font-display text-3xl font-semibold md:text-4xl">{project.name}</h1>
           <p className="mt-2 max-w-2xl text-sm text-ink-600">{project.description}</p>
         </div>
         <button
@@ -85,9 +85,9 @@ function Shortcut({
   copy: string;
 }) {
   return (
-    <Link href={href} className="rounded-2xl border border-ink-100 bg-white p-5 shadow-card">
-      <div className="mb-3 text-teal">{icon}</div>
-      <p className="font-display text-lg">{title}</p>
+    <Link href={href} className="rounded-xl border border-ink-100 bg-white p-5 shadow-card hover:border-ink-200">
+      <div className="mb-3 text-ink-900">{icon}</div>
+      <p className="font-display text-lg font-semibold">{title}</p>
       <p className="mt-1 text-sm text-ink-500">{copy}</p>
     </Link>
   );

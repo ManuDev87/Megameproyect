@@ -15,8 +15,8 @@ export default function MarketingPage() {
   return (
     <div className="space-y-5">
       <div>
-        <p className="text-xs uppercase tracking-[0.16em] text-ink-400">Marketing y medición</p>
-        <h1 className="font-display text-3xl">{project.name}</h1>
+        <p className="page-kicker">Marketing y medición</p>
+        <h1 className="font-display text-3xl font-semibold">{project.name}</h1>
         <p className="mt-1 max-w-2xl text-sm text-ink-500">
           Configura píxeles o snippets. Lo que marques como activo se inyecta en la landing pública.
         </p>

@@ -17,16 +17,16 @@ export default function ProjectsPage() {
     <div className="space-y-6">
       <div className="flex items-end justify-between gap-4">
         <div>
-          <h1 className="font-display text-3xl">Proyectos</h1>
+          <h1 className="font-display text-3xl font-semibold">Proyectos</h1>
           <p className="mt-1 text-sm text-ink-500">Cada proyecto tiene tablero, lanzamiento y marketing.</p>
         </div>
-        <Link href="/proyectos/nuevo" className="rounded-full bg-ink-900 px-4 py-2 text-sm text-white">
+        <Link href="/proyectos/nuevo" className="rounded-xl bg-ink-900 px-4 py-2 text-sm font-semibold text-white">
           Nuevo
         </Link>
       </div>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
         {projects.map((project) => (
-          <article key={project.id} className="rounded-2xl border border-ink-100 bg-white p-5">
+          <article key={project.id} className="rounded-xl border border-ink-100 bg-white p-5 shadow-card">
             <div className="mb-3 flex items-center justify-between">
               <span className="h-3 w-3 rounded-full" style={{ background: project.color }} />
               <Badge>{PROJECT_STATUS_LABEL[project.status]}</Badge>

@@ -35,7 +35,7 @@ export function MarketingPanel({ projectId }: { projectId: string }) {
         <div className="flex flex-wrap gap-2">
           <Link
             href={`/p/${projectId}`}
-            className="inline-flex items-center gap-2 rounded-full border border-ink-200 bg-white px-4 py-2 text-sm"
+            className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2 text-sm font-medium"
           >
             <ExternalLink size={16} /> Ver landing
           </Link>
@@ -67,7 +67,7 @@ export function MarketingPanel({ projectId }: { projectId: string }) {
                   Activo
                 </label>
               </div>
-              <pre className="max-h-40 overflow-auto rounded-xl bg-ink-950 p-3 text-[11px] leading-4 text-teal-soft">
+              <pre className="max-h-40 overflow-auto rounded-xl bg-ink-950 p-3 text-[11px] leading-4 text-lime">
                 {src ? `<!-- ${src} -->\n` : ""}
                 {snippet || "// Snippet vacío"}
               </pre>

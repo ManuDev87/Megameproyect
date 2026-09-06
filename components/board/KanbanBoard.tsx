@@ -25,10 +25,10 @@ import { useAppStore, useProjectData } from "@/lib/store";
 import { Badge, Button, Field, Input, Modal, Select, Textarea } from "@/components/ui/primitives";
 import { clsx, formatDate } from "@/lib/format";
 
-const PRIORITY_TONE: Record<Priority, "neutral" | "teal" | "amber" | "red"> = {
+const PRIORITY_TONE: Record<Priority, "neutral" | "teal" | "coral" | "red"> = {
   baja: "neutral",
-  media: "teal",
-  alta: "amber",
+  media: "coral",
+  alta: "teal",
   urgente: "red",
 };
 
@@ -142,13 +142,13 @@ function KanbanColumn({
     <section
       ref={setNodeRef}
       className={clsx(
-        "flex w-[280px] shrink-0 flex-col rounded-2xl border bg-white/70 p-3",
-        isOver ? "border-teal bg-teal-soft/40" : "border-ink-100",
+        "flex w-[280px] shrink-0 flex-col rounded-xl border bg-white p-3 shadow-card",
+        isOver ? "border-lime bg-lime-soft/50" : "border-ink-100",
       )}
     >
       <header className="mb-3 flex items-center gap-2">
         <input
-          className="w-full bg-transparent font-display text-sm outline-none"
+          className="w-full bg-transparent font-display text-sm font-semibold outline-none"
           defaultValue={column.title}
           onBlur={(event) => {
             const title = event.target.value.trim();
@@ -173,7 +173,7 @@ function KanbanColumn({
       </SortableContext>
       <button
         onClick={onAdd}
-        className="mt-3 flex items-center gap-1 rounded-xl px-2 py-2 text-sm text-ink-500 hover:bg-ink-50"
+        className="mt-3 flex items-center gap-1 rounded-lg border border-dashed border-ink-200 px-2 py-2 text-sm text-ink-500 hover:bg-canvas"
       >
         <Plus size={14} /> Nueva tarjeta
       </button>
@@ -211,7 +211,7 @@ function CardFace({
       type="button"
       onClick={onClick}
       className={clsx(
-        "w-full rounded-xl border border-ink-100 bg-white p-3 text-left shadow-sm",
+        "w-full rounded-lg border border-ink-100 bg-white p-3 text-left shadow-sm hover:border-ink-200",
         dragging && "opacity-40",
       )}
     >

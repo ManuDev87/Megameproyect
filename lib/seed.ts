@@ -199,7 +199,7 @@ export function createDemoState(): AppState {
         description:
           "Suite para llevar un producto tecnológico desde el tablero hasta las primeras llamadas de venta.",
         status: "lanzamiento",
-        color: "#0F766E",
+        color: "#16A34A",
         owner: "Manuel",
         createdAt: stamp,
         updatedAt: stamp,
