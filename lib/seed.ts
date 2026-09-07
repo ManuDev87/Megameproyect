@@ -172,8 +172,7 @@ export function createDemoState(): AppState {
     id: createId("lead"),
     projectId,
     notes: "",
-    createdAt: stamp,
-    updatedAt: stamp,
+    updatedAt: lead.createdAt,
     ...lead,
   }));
 
@@ -206,7 +205,6 @@ export function createDemoState(): AppState {
   ].map((call) => ({
     id: createId("call"),
     projectId,
-    date: stamp,
     ...call,
   }));
 
