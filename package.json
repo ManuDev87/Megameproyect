@@ -6,8 +6,6 @@
     "dev": "next dev --hostname 0.0.0.0 --port 3000",
     "build": "next build",
     "cf:build": "node scripts/cf-build.mjs",
-    "prepare": "node scripts/hook-wrangler.cjs",
-    "postinstall": "node scripts/hook-wrangler.cjs",
     "start": "next start --hostname 0.0.0.0 --port 3000",
     "lint": "next lint",
     "test": "vitest run",
