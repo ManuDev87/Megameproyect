@@ -8,6 +8,7 @@ import {
   PhoneCall,
   Megaphone,
   FolderKanban,
+  BarChart3,
   Menu,
   X,
   Plus,
@@ -36,10 +37,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return [
       { href: base, label: "Ficha", icon: FolderKanban },
       { href: `${base}/tablero`, label: "Producto", icon: KanbanSquare },
-      { href: `${base}/lanzamiento`, label: "Lanzamiento", icon: PhoneCall },
-      { href: `${base}/marketing`, label: "Marketing", icon: Megaphone },
+      { href: `${base}/lanzamiento`, label: "Contactos", icon: PhoneCall },
+      { href: `${base}/resultados`, label: "Resultados", icon: BarChart3 },
+      { href: `${base}/marketing`, label: "Píxel", icon: Megaphone },
     ];
   }, [currentProject]);
+  const mobileNav = projectNav.filter((item) => item.label !== "Ficha");
 
   const isPublic = pathname.startsWith("/p/");
   if (isPublic) return <>{children}</>;
@@ -141,7 +144,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         {currentProject ? (
           <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-4 border-t border-ink-100 bg-white/95 backdrop-blur lg:hidden">
-            {projectNav.map((item) => {
+            {mobileNav.map((item) => {
               const Icon = item.icon;
               const active = pathname === item.href;
               return (

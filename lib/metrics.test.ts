@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { computeLaunchMetrics } from "./metrics";
-import type { CallLog, Lead } from "./types";
+import { computeLaunchMetrics, computeResultMetrics } from "./metrics";
+import type { CallLog, Lead, MarketingEvent } from "./types";
 import { parseLeadWorkbook } from "./excel";
 import * as XLSX from "xlsx";
 
@@ -62,6 +62,32 @@ describe("computeLaunchMetrics", () => {
     const metrics = computeLaunchMetrics([], []);
     expect(metrics.conversionRate).toBe(0);
     expect(metrics.callsPerLead).toBe(0);
+  });
+});
+
+describe("computeResultMetrics", () => {
+  it("separa conversión de tráfico, comercial y rechazados", () => {
+    const leads: Lead[] = [
+      lead({ id: "1", status: "nuevo" }),
+      lead({ id: "2", status: "contactado" }),
+      lead({ id: "3", status: "convertido" }),
+      lead({ id: "4", status: "perdido" }),
+    ];
+    const events: MarketingEvent[] = [
+      { id: "e1", projectId: "p1", type: "page_view", timestamp: "", detail: "" },
+      { id: "e2", projectId: "p1", type: "page_view", timestamp: "", detail: "" },
+      { id: "e3", projectId: "p1", type: "page_view", timestamp: "", detail: "" },
+      { id: "e4", projectId: "p1", type: "page_view", timestamp: "", detail: "" },
+      { id: "e5", projectId: "p1", type: "conversion", timestamp: "", detail: "" },
+    ];
+    const metrics = computeResultMetrics(leads, [], events);
+    expect(metrics.visits).toBe(4);
+    expect(metrics.totalLeads).toBe(4);
+    expect(metrics.trafficConversionRate).toBe(100);
+    expect(metrics.conversionRate).toBe(25);
+    expect(metrics.rejected).toBe(1);
+    expect(metrics.rejectRate).toBe(25);
+    expect(metrics.pending).toBe(1);
   });
 });
 

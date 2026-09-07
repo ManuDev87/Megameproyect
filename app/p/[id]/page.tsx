@@ -62,7 +62,7 @@ export default function PublicLandingPage() {
               </li>
             ))}
             {enabled.length === 0 ? (
-              <li className="text-ink-400">Ningún píxel activo. Actívalos en Marketing.</li>
+              <li className="text-ink-400">Ningún píxel activo. Pega el código en Píxel.</li>
             ) : null}
           </ul>
         </section>

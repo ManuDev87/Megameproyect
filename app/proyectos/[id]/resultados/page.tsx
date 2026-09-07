@@ -1,27 +1,27 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import { LaunchPanel } from "@/components/launch/LaunchPanel";
+import { ResultsPanel } from "@/components/results/ResultsPanel";
 import { useAppStore } from "@/lib/store";
 
-export default function LaunchPage() {
+export default function ResultsPage() {
   const params = useParams<{ id: string }>();
   const project = useAppStore((state) => state.projects.find((item) => item.id === params.id));
   const hydrated = useAppStore((state) => state.hydrated);
 
-  if (!hydrated) return <p className="text-sm text-ink-500">Cargando contactos…</p>;
+  if (!hydrated) return <p className="text-sm text-ink-500">Cargando resultados…</p>;
   if (!project) return <p>No se encontró el proyecto.</p>;
 
   return (
     <div className="space-y-5">
       <div>
-        <p className="page-kicker">Contactos</p>
+        <p className="page-kicker">Resultados</p>
         <h1 className="font-display text-3xl font-semibold">{project.name}</h1>
         <p className="mt-1 max-w-2xl text-sm text-ink-500">
-          Importa emails y teléfonos desde Excel, registra llamadas y cambia el estado. Las métricas están en Resultados.
+          Visitas del píxel, contactos, conversión comercial y rechazados. El listado de llamadas está en Contactos.
         </p>
       </div>
-      <LaunchPanel projectId={project.id} />
+      <ResultsPanel projectId={project.id} />
     </div>
   );
 }

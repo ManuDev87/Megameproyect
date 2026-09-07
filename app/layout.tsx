@@ -10,9 +10,9 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Pixlanz — tablero, lanzamiento y marketing",
+  title: "Pixlanz — tablero, contactos y resultados",
   description:
-    "Tablero de producto, seguimiento de lanzamiento con importación Excel y píxeles de marketing.",
+    "Tablero de producto, contactos con Excel, resultados de visitas y conversión, y código de píxel.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

@@ -7,8 +7,8 @@ import { CALL_OUTCOME_LABEL, LEAD_STATUS_LABEL } from "@/lib/types";
 import { useAppStore, useProjectData } from "@/lib/store";
 import { computeLaunchMetrics } from "@/lib/metrics";
 import { downloadTemplate, parseLeadWorkbook, parsedRowsToLeads, type ParsedLeadRow } from "@/lib/excel";
-import { Badge, Button, Card, Field, Input, Modal, Select, Textarea } from "@/components/ui/primitives";
-import { formatDateTime, percent } from "@/lib/format";
+import { Badge, Button, Field, Input, Modal, Select, Textarea } from "@/components/ui/primitives";
+import { formatDateTime } from "@/lib/format";
 
 const STATUS_TONE: Record<LeadStatus, "neutral" | "teal" | "amber" | "red" | "violet" | "blue"> = {
   nuevo: "blue",
@@ -37,31 +37,20 @@ export function LaunchPanel({ projectId }: { projectId: string }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <Stat label="Contactos" value={String(metrics.totalLeads)} hint="Importados + manuales" />
-        <Stat label="Conversión" value={`${metrics.conversionRate}%`} hint={`${metrics.converted} cerrados`} />
-        <Stat label="Contactados" value={`${metrics.contactRate}%`} hint="Al menos un avance de estado" />
-        <Stat
-          label="Llamadas"
-          value={String(metrics.totalCalls)}
-          hint={`${metrics.answerRate}% contestadas · ${metrics.callsPerLead}/lead`}
-        />
+      <div className="flex flex-wrap gap-2 text-sm">
+        <span className="rounded-xl bg-white px-3 py-2 shadow-card">
+          <span className="text-ink-500">Por llamar </span>
+          <span className="font-semibold">{metrics.funnel.find((step) => step.status === "nuevo")?.count ?? 0}</span>
+        </span>
+        <span className="rounded-xl bg-white px-3 py-2 shadow-card">
+          <span className="text-ink-500">Convertidos </span>
+          <span className="font-semibold">{metrics.converted}</span>
+        </span>
+        <span className="rounded-xl bg-white px-3 py-2 shadow-card">
+          <span className="text-ink-500">Rechazados </span>
+          <span className="font-semibold">{metrics.lost}</span>
+        </span>
       </div>
-
-      <Card>
-        <p className="mb-4 text-sm font-medium">Embudo de lanzamiento</p>
-        <div className="grid gap-2 sm:grid-cols-3 lg:grid-cols-6">
-          {metrics.funnel.map((step) => (
-            <div key={step.status} className="rounded-xl bg-canvas p-3">
-              <p className="text-xs text-ink-500">{LEAD_STATUS_LABEL[step.status]}</p>
-              <p className="mt-1 font-display text-2xl">{step.count}</p>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-ink-100">
-                <div className="h-full bg-lime" style={{ width: `${percent(step.count, metrics.totalLeads)}%` }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </Card>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
         <Input
@@ -158,16 +147,6 @@ export function LaunchPanel({ projectId }: { projectId: string }) {
         onClose={() => setSelected(null)}
       />
     </div>
-  );
-}
-
-function Stat({ label, value, hint }: { label: string; value: string; hint: string }) {
-  return (
-    <Card>
-      <p className="text-xs uppercase tracking-wide text-ink-500">{label}</p>
-      <p className="mt-1 font-display text-3xl">{value}</p>
-      <p className="mt-1 text-xs text-ink-400">{hint}</p>
-    </Card>
   );
 }
 

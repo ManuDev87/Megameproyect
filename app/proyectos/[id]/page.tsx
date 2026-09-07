@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
-import { KanbanSquare, Megaphone, PhoneCall } from "lucide-react";
+import { KanbanSquare, Megaphone, PhoneCall, BarChart3 } from "lucide-react";
 import { useAppStore, useProjectData } from "@/lib/store";
 import { ProjectForm } from "@/components/projects/ProjectForm";
 import { Badge, Card } from "@/components/ui/primitives";
@@ -44,7 +44,7 @@ export default function ProjectOverviewPage() {
         </button>
       </header>
 
-      <div className="grid gap-3 md:grid-cols-3">
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <Shortcut
           href={`/proyectos/${project.id}/tablero`}
           icon={<KanbanSquare size={18} />}
@@ -54,14 +54,20 @@ export default function ProjectOverviewPage() {
         <Shortcut
           href={`/proyectos/${project.id}/lanzamiento`}
           icon={<PhoneCall size={18} />}
-          title="Lanzamiento"
-          copy={`${leads.length} contactos · ${metrics.conversionRate}% conversión.`}
+          title="Contactos"
+          copy={`${leads.length} contactos · ${calls.length} llamadas.`}
+        />
+        <Shortcut
+          href={`/proyectos/${project.id}/resultados`}
+          icon={<BarChart3 size={18} />}
+          title="Resultados"
+          copy={`${metrics.conversionRate}% conversión comercial.`}
         />
         <Shortcut
           href={`/proyectos/${project.id}/marketing`}
           icon={<Megaphone size={18} />}
-          title="Marketing"
-          copy={`${pixels.filter((pixel) => pixel.enabled).length} píxeles activos.`}
+          title="Píxel"
+          copy={`${pixels.filter((pixel) => pixel.enabled).length} códigos activos en la landing.`}
         />
       </div>
 
