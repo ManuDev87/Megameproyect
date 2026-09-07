@@ -69,6 +69,10 @@ interface Store extends AppState {
     pixelId?: string;
     type: AppState["events"][number]["type"];
     detail: string;
+    source?: string;
+    device?: "mobile" | "desktop" | "tablet";
+    sessionId?: string;
+    path?: string;
   }) => void;
 }
 

@@ -2,16 +2,25 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 import { useAppStore, useProjectData } from "@/lib/store";
 import { PixelScripts } from "@/components/marketing/PixelScripts";
 import { PIXEL_PROVIDER_LABEL } from "@/lib/types";
+import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
+import { computeAnalytics } from "@/lib/analytics";
 
 export default function PublicLandingPage() {
   const params = useParams<{ id: string }>();
+  const [preview, setPreview] = useState(false);
   const hydrated = useAppStore((state) => state.hydrated);
   const project = useAppStore((state) => state.projects.find((item) => item.id === params.id));
-  const { pixels } = useProjectData(params.id);
+  const { pixels, leads, calls, events } = useProjectData(params.id);
   const enabled = pixels.filter((pixel) => pixel.enabled);
+  const analytics = useMemo(() => computeAnalytics(leads, calls, events), [leads, calls, events]);
+
+  useEffect(() => {
+    setPreview(new URLSearchParams(window.location.search).get("preview") === "1");
+  }, []);
 
   if (!hydrated) {
     return (
@@ -67,6 +76,24 @@ export default function PublicLandingPage() {
           </ul>
         </section>
       </main>
+
+      {preview ? (
+        <aside className="fixed inset-x-3 bottom-3 z-30 max-h-[58vh] overflow-y-auto rounded-2xl border border-ink-200 bg-white p-4 text-ink-950 shadow-lift md:inset-x-auto md:bottom-6 md:right-6 md:w-[420px]">
+          <div className="mb-3 flex items-start justify-between gap-3">
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-ink-400">Prueba</p>
+              <p className="font-display text-lg font-semibold">Estadísticas de visitas</p>
+              <p className="text-xs text-ink-500">
+                {analytics.visits} visitas · {analytics.whatsappContacts} WhatsApp · {analytics.emailContacts} email
+              </p>
+            </div>
+            <Link href={`/proyectos/${project.id}/marketing`} className="text-xs font-semibold text-ink-700 hover:text-ink-950">
+              Abrir analítica
+            </Link>
+          </div>
+          <AnalyticsDashboard projectId={project.id} compact />
+        </aside>
+      ) : null}
     </div>
   );
 }

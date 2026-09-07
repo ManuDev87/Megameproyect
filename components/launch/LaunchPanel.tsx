@@ -2,8 +2,9 @@
 
 import { useMemo, useState } from "react";
 import { Download, Phone, Plus, Upload } from "lucide-react";
-import type { CallOutcome, Lead, LeadStatus } from "@/lib/types";
-import { CALL_OUTCOME_LABEL, LEAD_STATUS_LABEL } from "@/lib/types";
+import type { CallOutcome, ContactChannel, Lead, LeadStatus } from "@/lib/types";
+import { CALL_OUTCOME_LABEL, CONTACT_CHANNEL_LABEL, CONTACT_CHANNELS, LEAD_STATUS_LABEL } from "@/lib/types";
+import { normalizeContactChannel } from "@/lib/channels";
 import { useAppStore, useProjectData } from "@/lib/store";
 import { computeLaunchMetrics } from "@/lib/metrics";
 import { downloadTemplate, parseLeadWorkbook, parsedRowsToLeads, type ParsedLeadRow } from "@/lib/excel";
@@ -106,7 +107,7 @@ export function LaunchPanel({ projectId }: { projectId: string }) {
                     </p>
                   </td>
                   <td className="px-4 py-3">{lead.phone || "—"}</td>
-                  <td className="px-4 py-3">{lead.source || "—"}</td>
+                  <td className="px-4 py-3">{CONTACT_CHANNEL_LABEL[normalizeContactChannel(lead.source)]}</td>
                   <td className="px-4 py-3">
                     <Badge tone={STATUS_TONE[lead.status]}>{LEAD_STATUS_LABEL[lead.status]}</Badge>
                   </td>
@@ -257,7 +258,7 @@ function LeadFormModal({
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
-  const [source, setSource] = useState("Manual");
+  const [source, setSource] = useState<ContactChannel>("email");
 
   return (
     <Modal open={open} title="Nuevo contacto" onClose={onClose}>
@@ -271,7 +272,7 @@ function LeadFormModal({
             email,
             phone,
             company,
-            source,
+            source: CONTACT_CHANNEL_LABEL[source],
             status: "nuevo",
             notes: "",
           });
@@ -279,6 +280,7 @@ function LeadFormModal({
           setEmail("");
           setPhone("");
           setCompany("");
+          setSource("email");
           onClose();
         }}
       >
@@ -297,7 +299,13 @@ function LeadFormModal({
           <Input value={company} onChange={(event) => setCompany(event.target.value)} />
         </Field>
         <Field label="Fuente">
-          <Input value={source} onChange={(event) => setSource(event.target.value)} />
+          <Select value={source} onChange={(event) => setSource(event.target.value as ContactChannel)}>
+            {CONTACT_CHANNELS.map((channel) => (
+              <option key={channel} value={channel}>
+                {CONTACT_CHANNEL_LABEL[channel]}
+              </option>
+            ))}
+          </Select>
         </Field>
         <div className="flex justify-end">
           <Button type="submit">Guardar</Button>
@@ -341,6 +349,20 @@ function LeadDrawer({
           <p className="text-sm text-ink-500">
             {lead.email || "sin email"} · {lead.phone || "sin teléfono"}
           </p>
+          <Field label="Fuente">
+            <Select
+              value={normalizeContactChannel(lead.source)}
+              onChange={(event) =>
+                updateLead(lead.id, { source: CONTACT_CHANNEL_LABEL[event.target.value as ContactChannel] })
+              }
+            >
+              {CONTACT_CHANNELS.map((channel) => (
+                <option key={channel} value={channel}>
+                  {CONTACT_CHANNEL_LABEL[channel]}
+                </option>
+              ))}
+            </Select>
+          </Field>
           <Field label="Estado">
             <Select
               value={lead.status}

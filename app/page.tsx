@@ -143,7 +143,7 @@ export default function DashboardPage() {
                       <BarChart3 size={14} className="mx-auto mb-1" /> Resultados
                     </Link>
                     <Link className="rounded-xl bg-canvas px-3 py-2 text-center font-medium hover:bg-ink-100" href={`/proyectos/${project.id}/marketing`}>
-                      <Megaphone size={14} className="mx-auto mb-1" /> Píxel
+                      <Megaphone size={14} className="mx-auto mb-1" /> Marketing
                     </Link>
                   </div>
                 </article>
