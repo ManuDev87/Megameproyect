@@ -8,6 +8,7 @@ import {
   PhoneCall,
   Megaphone,
   FolderKanban,
+  BarChart3,
   Menu,
   X,
   Plus,
@@ -36,10 +37,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
     return [
       { href: base, label: "Ficha", icon: FolderKanban },
       { href: `${base}/tablero`, label: "Producto", icon: KanbanSquare },
-      { href: `${base}/lanzamiento`, label: "Lanzamiento", icon: PhoneCall },
-      { href: `${base}/marketing`, label: "Marketing", icon: Megaphone },
+      { href: `${base}/lanzamiento`, label: "Contactos", icon: PhoneCall },
+      { href: `${base}/resultados`, label: "Resultados", icon: BarChart3 },
+      { href: `${base}/marketing`, label: "Píxel", icon: Megaphone },
     ];
   }, [currentProject]);
+  const mobileNav = projectNav.filter((item) => item.label !== "Ficha");
 
   const isPublic = pathname.startsWith("/p/");
   if (isPublic) return <>{children}</>;
@@ -55,13 +58,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="flex h-full flex-col px-4 py-5">
           <div className="flex items-center justify-between px-2">
             <Link href="/" className="font-display text-[22px] font-semibold tracking-tight" onClick={() => setOpen(false)}>
-              Mega<span className="text-lime">me</span>
+              Pix<span className="text-lime">lanz</span>
             </Link>
             <button className="lg:hidden" onClick={() => setOpen(false)} aria-label="Cerrar menú">
               <X size={20} />
             </button>
           </div>
-          <p className="mt-1 px-2 text-xs text-ink-400">Proyectos tecnológicos</p>
+          <p className="mt-1 px-2 text-xs text-ink-400">Tablero + lanzamiento</p>
 
           <nav className="mt-8 space-y-1">
             {NAV.map((item) => (
@@ -141,7 +144,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
         {currentProject ? (
           <nav className="fixed inset-x-0 bottom-0 z-20 grid grid-cols-4 border-t border-ink-100 bg-white/95 backdrop-blur lg:hidden">
-            {projectNav.map((item) => {
+            {mobileNav.map((item) => {
               const Icon = item.icon;
               const active = pathname === item.href;
               return (

@@ -1,4 +1,4 @@
-import type { CallLog, Lead, LeadStatus } from "./types";
+import type { CallLog, Lead, LeadStatus, MarketingEvent } from "./types";
 import { LEAD_STATUSES } from "./types";
 import { percent } from "./format";
 
@@ -19,6 +19,22 @@ export interface LaunchMetrics {
   answerRate: number;
   callsPerLead: number;
   funnel: FunnelStep[];
+}
+
+export interface TrafficStep {
+  key: string;
+  label: string;
+  count: number;
+}
+
+export interface ResultMetrics extends LaunchMetrics {
+  visits: number;
+  pending: number;
+  rejected: number;
+  rejectRate: number;
+  trafficConversionRate: number;
+  notInterestedCalls: number;
+  trafficFunnel: TrafficStep[];
 }
 
 const CONTACTED_STATUSES: LeadStatus[] = [
@@ -58,5 +74,34 @@ export function computeLaunchMetrics(leads: Lead[], calls: CallLog[]): LaunchMet
       const count = leads.filter((lead) => lead.status === status).length;
       return { status, count, percent: percent(count, totalLeads) };
     }),
+  };
+}
+
+export function computeResultMetrics(
+  leads: Lead[],
+  calls: CallLog[],
+  events: MarketingEvent[],
+): ResultMetrics {
+  const launch = computeLaunchMetrics(leads, calls);
+  const visits = events.filter((event) => event.type === "page_view").length;
+  const pending = leads.filter((lead) => lead.status === "nuevo").length;
+  const rejected = launch.lost;
+  const contacted = leads.filter((lead) => CONTACTED_STATUSES.includes(lead.status)).length;
+
+  return {
+    ...launch,
+    visits,
+    pending,
+    rejected,
+    rejectRate: percent(rejected, launch.totalLeads),
+    trafficConversionRate: percent(launch.totalLeads, visits),
+    notInterestedCalls: calls.filter((call) => call.outcome === "no_interesado").length,
+    trafficFunnel: [
+      { key: "visits", label: "Visitas", count: visits },
+      { key: "leads", label: "Contactos", count: launch.totalLeads },
+      { key: "contacted", label: "Trabajados", count: contacted },
+      { key: "converted", label: "Convertidos", count: launch.converted },
+      { key: "rejected", label: "Rechazados", count: rejected },
+    ],
   };
 }

@@ -18,7 +18,7 @@ export default function ProjectsPage() {
       <div className="flex items-end justify-between gap-4">
         <div>
           <h1 className="font-display text-3xl font-semibold">Proyectos</h1>
-          <p className="mt-1 text-sm text-ink-500">Cada proyecto tiene tablero, lanzamiento y marketing.</p>
+          <p className="mt-1 text-sm text-ink-500">Cada proyecto tiene tablero, contactos, resultados y píxel.</p>
         </div>
         <Link href="/proyectos/nuevo" className="rounded-xl bg-ink-900 px-4 py-2 text-sm font-semibold text-white">
           Nuevo

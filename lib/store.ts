@@ -341,7 +341,7 @@ export const useAppStore = create<Store>()(
         })),
     }),
     {
-      name: "megame-store",
+      name: "pixlanz-store",
       skipHydration: true,
       partialize: (state) => {
         const { hydrated, ...rest } = state;

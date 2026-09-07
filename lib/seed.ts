@@ -211,19 +211,19 @@ export function createDemoState(): AppState {
     calls,
     pixels,
     events: [
-      {
+      ...Array.from({ length: 36 }, (_, index) => ({
         id: createId("evt"),
         projectId,
         pixelId: pixels[0].id,
-        type: "page_view",
+        type: "page_view" as const,
         timestamp: stamp,
-        detail: "Visita a la landing pública",
-      },
+        detail: index % 5 === 0 ? "Visita desde anuncio Meta" : "Visita a la landing pública",
+      })),
       {
         id: createId("evt"),
         projectId,
         pixelId: pixels[0].id,
-        type: "conversion",
+        type: "conversion" as const,
         timestamp: stamp,
         detail: "Lead convertido: Sofía Herrera",
       },

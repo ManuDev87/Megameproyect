@@ -9,7 +9,7 @@ import {
   FolderKanban,
   Layers,
   TrendingUp,
-  Code2,
+  BarChart3,
   Plus,
 } from "lucide-react";
 import { useAppStore } from "@/lib/store";
@@ -25,7 +25,6 @@ export default function DashboardPage() {
   const calls = useAppStore((state) => state.calls);
   const cards = useAppStore((state) => state.cards);
   const columns = useAppStore((state) => state.columns);
-  const pixels = useAppStore((state) => state.pixels);
   const loadDemo = useAppStore((state) => state.loadDemo);
   const resetAll = useAppStore((state) => state.resetAll);
   const metrics = useMemo(() => computeLaunchMetrics(leads, calls), [leads, calls]);
@@ -53,14 +52,14 @@ export default function DashboardPage() {
     <div className="space-y-6">
       <section className="hero-grid overflow-hidden rounded-2xl px-6 py-8 text-white md:px-10 md:py-11">
         <p className="inline-flex rounded-md bg-lime px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.16em] text-ink-950">
-          Megame
+          Pixlanz
         </p>
         <h1 className="mt-4 max-w-2xl font-display text-3xl font-semibold leading-tight md:text-5xl">
           Lleva el producto, las llamadas y el píxel en el mismo tablero.
         </h1>
         <p className="mt-4 max-w-xl text-sm text-ink-300 md:text-base">
-          Crea el producto en columnas tipo Trello, importa contactos desde Excel, registra cada llamada y mide la
-          conversión. En marketing, activa Meta, GA4 o el snippet que uses.
+          Crea el producto en columnas tipo Trello, importa contactos desde Excel y registra cada llamada. El píxel
+          solo guarda el código; visitas y conversión se ven en Resultados.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
@@ -92,9 +91,9 @@ export default function DashboardPage() {
           accent="bg-lime-soft text-lime-ink"
         />
         <Kpi
-          label="Píxeles"
-          value={pixels.filter((pixel) => pixel.enabled).length}
-          icon={<Code2 size={18} />}
+          label="Contactos"
+          value={leads.length}
+          icon={<PhoneCall size={18} />}
           accent="bg-sky-100 text-sky-800"
         />
       </section>
@@ -133,15 +132,18 @@ export default function DashboardPage() {
                   <p className="mt-3 text-xs text-ink-500">
                     {projectLeads.length} contactos · {stats.conversionRate}% conversión · {projectCalls.length} llamadas
                   </p>
-                  <div className="mt-4 grid grid-cols-3 gap-2 text-sm">
+                  <div className="mt-4 grid grid-cols-2 gap-2 text-sm sm:grid-cols-4">
                     <Link className="rounded-xl bg-canvas px-3 py-2 text-center font-medium hover:bg-ink-100" href={`/proyectos/${project.id}/tablero`}>
                       <KanbanSquare size={14} className="mx-auto mb-1" /> Producto
                     </Link>
                     <Link className="rounded-xl bg-canvas px-3 py-2 text-center font-medium hover:bg-ink-100" href={`/proyectos/${project.id}/lanzamiento`}>
-                      <PhoneCall size={14} className="mx-auto mb-1" /> Lanzamiento
+                      <PhoneCall size={14} className="mx-auto mb-1" /> Contactos
+                    </Link>
+                    <Link className="rounded-xl bg-canvas px-3 py-2 text-center font-medium hover:bg-ink-100" href={`/proyectos/${project.id}/resultados`}>
+                      <BarChart3 size={14} className="mx-auto mb-1" /> Resultados
                     </Link>
                     <Link className="rounded-xl bg-canvas px-3 py-2 text-center font-medium hover:bg-ink-100" href={`/proyectos/${project.id}/marketing`}>
-                      <Megaphone size={14} className="mx-auto mb-1" /> Marketing
+                      <Megaphone size={14} className="mx-auto mb-1" /> Píxel
                     </Link>
                   </div>
                 </article>
