@@ -7,12 +7,16 @@ import { generatePixelSnippet, providerScriptSrc } from "@/lib/pixels";
 import { useAppStore } from "@/lib/store";
 
 function sessionId(): string {
-  const key = "pixlanz-session";
-  const existing = sessionStorage.getItem(key);
-  if (existing) return existing;
-  const next = crypto.randomUUID();
-  sessionStorage.setItem(key, next);
-  return next;
+  try {
+    const key = "pixlanz-session";
+    const existing = sessionStorage.getItem(key);
+    if (existing) return existing;
+    const next = crypto.randomUUID();
+    sessionStorage.setItem(key, next);
+    return next;
+  } catch {
+    return "anon";
+  }
 }
 
 function device(): "mobile" | "desktop" | "tablet" {

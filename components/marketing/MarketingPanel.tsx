@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ExternalLink, Plus, Trash2 } from "lucide-react";
 import type { PixelProvider, TrackingPixel } from "@/lib/types";
 import { PIXEL_PROVIDER_LABEL } from "@/lib/types";
@@ -13,16 +13,20 @@ import { clsx } from "@/lib/format";
 
 export function MarketingPanel({
   projectId,
-  initialTab = "codigo",
 }: {
   projectId: string;
-  initialTab?: "codigo" | "analitica";
 }) {
   const { pixels } = useProjectData(projectId);
   const updatePixel = useAppStore((state) => state.updatePixel);
   const deletePixel = useAppStore((state) => state.deletePixel);
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState<"codigo" | "analitica">(initialTab);
+  const [tab, setTab] = useState<"codigo" | "analitica">("codigo");
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("tab") === "analitica") {
+      setTab("analitica");
+    }
+  }, []);
 
   return (
     <div className="space-y-6">

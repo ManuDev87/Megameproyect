@@ -25,8 +25,14 @@ export function StoreHydration({ children }: { children: React.ReactNode }) {
         setHydrated();
       }
     }
+    const timeout = window.setTimeout(() => {
+      if (!useAppStore.getState().hydrated) {
+        setHydrated();
+      }
+    }, 1200);
     return () => {
       unsub();
+      window.clearTimeout(timeout);
     };
   }, [loadDemo, setHydrated]);
 
