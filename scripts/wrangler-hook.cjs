@@ -42,5 +42,10 @@ const result = spawnSync(process.execPath, [script], {
   env: process.env,
 });
 if (result.status) {
+  const workerJs = path.join(__dirname, "..", ".open-next", "worker.js");
+  if (fs.existsSync(workerJs)) {
+    console.warn("[cf-build] OpenNext failed; deploying the Worker already in the repo");
+    return;
+  }
   process.exit(result.status);
 }

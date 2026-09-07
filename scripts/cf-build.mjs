@@ -33,10 +33,29 @@ if (existsSync(nextDir)) {
   console.log("[cf-build] building Next.js and adapting for Cloudflare");
 }
 
+if (!existsSync(bin)) {
+  if (existsSync(workerJs)) {
+    console.warn("[cf-build] OpenNext CLI missing; deploying the Worker already in the repo");
+    process.exit(0);
+  }
+  console.error("[cf-build] missing", bin);
+  process.exit(1);
+}
+
 const result = spawnSync(bin, args, {
   cwd: root,
   stdio: "inherit",
   env: process.env,
 });
 
-process.exit(result.status === null ? 1 : result.status);
+if (result.status) {
+  if (existsSync(workerJs)) {
+    console.warn(
+      "[cf-build] OpenNext failed; deploying the Worker already in the repo",
+    );
+    process.exit(0);
+  }
+  process.exit(result.status === null ? 1 : result.status);
+}
+
+process.exit(0);
