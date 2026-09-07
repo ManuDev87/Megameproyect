@@ -50,6 +50,17 @@ export const MARKETING_EVENT_TYPES = [
 ] as const;
 export type MarketingEventType = (typeof MARKETING_EVENT_TYPES)[number];
 
+export const CONTACT_CHANNELS = [
+  "whatsapp",
+  "email",
+  "llamada",
+  "web",
+  "linkedin",
+  "excel",
+  "otro",
+] as const;
+export type ContactChannel = (typeof CONTACT_CHANNELS)[number];
+
 export interface Project {
   id: string;
   name: string;
@@ -124,6 +135,10 @@ export interface MarketingEvent {
   type: MarketingEventType;
   timestamp: string;
   detail: string;
+  source?: string;
+  device?: "mobile" | "desktop" | "tablet";
+  sessionId?: string;
+  path?: string;
 }
 
 export interface AppState {
@@ -169,6 +184,16 @@ export const CALL_OUTCOME_LABEL: Record<CallOutcome, string> = {
   interesado: "Interesado",
   no_interesado: "No interesado",
   convertido: "Convertido",
+};
+
+export const CONTACT_CHANNEL_LABEL: Record<ContactChannel, string> = {
+  whatsapp: "WhatsApp",
+  email: "Email",
+  llamada: "Llamada",
+  web: "Web / landing",
+  linkedin: "LinkedIn",
+  excel: "Excel",
+  otro: "Otro",
 };
 
 export const PIXEL_PROVIDER_LABEL: Record<PixelProvider, string> = {

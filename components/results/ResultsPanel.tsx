@@ -89,10 +89,10 @@ export function ResultsPanel({ projectId }: { projectId: string }) {
           <Code2 size={16} /> Configurar píxel
         </Link>
         <Link
-          href={`/p/${projectId}`}
+          href={`/p/${projectId}?preview=1`}
           className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2 text-sm font-medium"
         >
-          <ExternalLink size={16} /> Ver landing
+          <ExternalLink size={16} /> Ver prueba
         </Link>
         <p className="self-center text-xs text-ink-400">{enabledPixels} píxel{enabledPixels === 1 ? "" : "es"} activo{enabledPixels === 1 ? "" : "s"}</p>
       </div>

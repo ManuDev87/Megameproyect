@@ -8,52 +8,98 @@ import { PIXEL_HELP } from "@/lib/pixels";
 import { useAppStore, useProjectData } from "@/lib/store";
 import { Badge, Button, Card, Field, Input, Modal, Select, Textarea } from "@/components/ui/primitives";
 import Link from "next/link";
+import { AnalyticsDashboard } from "@/components/analytics/AnalyticsDashboard";
+import { clsx } from "@/lib/format";
 
-export function MarketingPanel({ projectId }: { projectId: string }) {
+export function MarketingPanel({
+  projectId,
+  initialTab = "codigo",
+}: {
+  projectId: string;
+  initialTab?: "codigo" | "analitica";
+}) {
   const { pixels } = useProjectData(projectId);
   const updatePixel = useAppStore((state) => state.updatePixel);
   const deletePixel = useAppStore((state) => state.deletePixel);
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<"codigo" | "analitica">(initialTab);
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="max-w-xl text-sm text-ink-600">
-          Pega el ID o el snippet. Lo que esté activo se inyecta en la landing. Las visitas y la conversión se ven
-          en Resultados.
-        </p>
-        <div className="flex flex-wrap gap-2">
-          <Link
-            href={`/p/${projectId}`}
-            className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2 text-sm font-medium"
-          >
-            <ExternalLink size={16} /> Ver landing
-          </Link>
-          <Button onClick={() => setOpen(true)}>
-            <Plus size={16} /> Nuevo píxel
-          </Button>
-        </div>
+      <div className="flex flex-wrap gap-2">
+        <TabButton active={tab === "codigo"} onClick={() => setTab("codigo")}>
+          Código de píxel
+        </TabButton>
+        <TabButton active={tab === "analitica"} onClick={() => setTab("analitica")}>
+          Analítica
+        </TabButton>
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        {pixels.map((pixel) => (
-          <PixelCard
-            key={pixel.id}
-            pixel={pixel}
-            onChange={(patch) => updatePixel(pixel.id, patch)}
-            onDelete={() => deletePixel(pixel.id)}
-          />
-        ))}
-      </div>
+      {tab === "analitica" ? (
+        <AnalyticsDashboard projectId={projectId} />
+      ) : (
+        <>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p className="max-w-xl text-sm text-ink-600">
+              Pega el ID o el snippet. Lo activo se inyecta en la landing. Las visitas se ven en Analítica.
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <Link
+                href={`/p/${projectId}?preview=1`}
+                className="inline-flex items-center gap-2 rounded-xl border border-ink-200 bg-white px-4 py-2 text-sm font-medium"
+              >
+                <ExternalLink size={16} /> Ver prueba
+              </Link>
+              <Button onClick={() => setOpen(true)}>
+                <Plus size={16} /> Nuevo píxel
+              </Button>
+            </div>
+          </div>
 
-      {pixels.length === 0 ? (
-        <Card>
-          <p className="text-sm text-ink-500">Todavía no hay píxeles. Añade el código de Meta, GA4 u otro proveedor.</p>
-        </Card>
-      ) : null}
+          <div className="grid gap-4 lg:grid-cols-2">
+            {pixels.map((pixel) => (
+              <PixelCard
+                key={pixel.id}
+                pixel={pixel}
+                onChange={(patch) => updatePixel(pixel.id, patch)}
+                onDelete={() => deletePixel(pixel.id)}
+              />
+            ))}
+          </div>
 
-      <PixelModal projectId={projectId} open={open} onClose={() => setOpen(false)} />
+          {pixels.length === 0 ? (
+            <Card>
+              <p className="text-sm text-ink-500">Todavía no hay píxeles. Añade el código de Meta, GA4 u otro proveedor.</p>
+            </Card>
+          ) : null}
+
+          <PixelModal projectId={projectId} open={open} onClose={() => setOpen(false)} />
+        </>
+      )}
     </div>
+  );
+}
+
+function TabButton({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={clsx(
+        "rounded-xl px-4 py-2 text-sm font-semibold",
+        active ? "bg-ink-900 text-white" : "border border-ink-200 bg-white text-ink-600 hover:text-ink-950",
+      )}
+    >
+      {children}
+    </button>
   );
 }
 

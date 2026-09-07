@@ -66,8 +66,8 @@ export default function ProjectOverviewPage() {
         <Shortcut
           href={`/proyectos/${project.id}/marketing`}
           icon={<Megaphone size={18} />}
-          title="Píxel"
-          copy={`${pixels.filter((pixel) => pixel.enabled).length} códigos activos en la landing.`}
+          title="Marketing"
+          copy={`${pixels.filter((pixel) => pixel.enabled).length} códigos activos. Analítica web y de contactos.`}
         />
       </div>
 

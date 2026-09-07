@@ -39,7 +39,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
       { href: `${base}/tablero`, label: "Producto", icon: KanbanSquare },
       { href: `${base}/lanzamiento`, label: "Contactos", icon: PhoneCall },
       { href: `${base}/resultados`, label: "Resultados", icon: BarChart3 },
-      { href: `${base}/marketing`, label: "Píxel", icon: Megaphone },
+      { href: `${base}/marketing`, label: "Marketing", icon: Megaphone },
     ];
   }, [currentProject]);
   const mobileNav = projectNav.filter((item) => item.label !== "Ficha");

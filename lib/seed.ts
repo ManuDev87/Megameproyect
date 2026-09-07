@@ -1,6 +1,46 @@
 import type { AppState } from "./types";
 import { createId, nowIso } from "./id";
 
+function daysAgo(days: number, hour = 11): string {
+  const date = new Date();
+  date.setDate(date.getDate() - days);
+  date.setHours(hour, (days * 7) % 60, 0, 0);
+  return date.toISOString();
+}
+
+const TRAFFIC_SOURCES = ["Directo", "Meta", "google.com", "linkedin.com"];
+const DEVICES = ["desktop", "mobile", "tablet"] as const;
+
+function buildDemoEvents(projectId: string, pixelId: string) {
+  const visits = Array.from({ length: 14 }, (_, dayOffset) => {
+    const count = 2 + ((dayOffset * 3) % 4);
+    return Array.from({ length: count }, (_, visit) => ({
+      id: createId("evt"),
+      projectId,
+      pixelId,
+      type: "page_view" as const,
+      timestamp: daysAgo(13 - dayOffset, 9 + visit),
+      detail: TRAFFIC_SOURCES[visit % TRAFFIC_SOURCES.length] === "Meta" ? "Visita desde anuncio Meta" : "Visita a la landing pública",
+      source: TRAFFIC_SOURCES[(dayOffset + visit) % TRAFFIC_SOURCES.length],
+      device: DEVICES[(dayOffset + visit) % DEVICES.length],
+      sessionId: `demo_${dayOffset}_${visit}`,
+      path: `/p/${projectId}`,
+    }));
+  }).flat();
+
+  return [
+    ...visits,
+    {
+      id: createId("evt"),
+      projectId,
+      pixelId,
+      type: "conversion" as const,
+      timestamp: daysAgo(5, 16),
+      detail: "Lead convertido: Sofía Herrera",
+    },
+  ];
+}
+
 export function createDemoState(): AppState {
   const projectId = createId("prj");
   const stamp = nowIso();
@@ -79,16 +119,18 @@ export function createDemoState(): AppState {
       email: "laura@orbitas.io",
       phone: "+34 612 445 890",
       company: "Órbitas",
-      source: "Webinar",
+      source: "WhatsApp",
       status: "interesado" as const,
+      createdAt: daysAgo(8),
     },
     {
       name: "Carlos Vidal",
       email: "cvidal@nortech.es",
       phone: "+34 600 221 118",
       company: "Nortech",
-      source: "LinkedIn",
+      source: "Email",
       status: "contactado" as const,
+      createdAt: daysAgo(7),
     },
     {
       name: "Sofía Herrera",
@@ -97,30 +139,34 @@ export function createDemoState(): AppState {
       company: "Kable",
       source: "Excel",
       status: "convertido" as const,
+      createdAt: daysAgo(6),
     },
     {
       name: "Miguel Prado",
       email: "miguel@prado.tech",
       phone: "+34 678 333 210",
       company: "Prado Tech",
-      source: "Feria",
+      source: "WhatsApp",
       status: "nuevo" as const,
+      createdAt: daysAgo(4),
     },
     {
       name: "Elena Costa",
       email: "elena@costa.dev",
       phone: "+34 611 888 004",
       company: "Costa Dev",
-      source: "Referral",
+      source: "Email",
       status: "negociacion" as const,
+      createdAt: daysAgo(3),
     },
     {
       name: "Iván Soler",
       email: "ivan@soler.agency",
       phone: "+34 622 147 963",
       company: "Soler Agency",
-      source: "Cold call",
+      source: "Llamada",
       status: "perdido" as const,
+      createdAt: daysAgo(2),
     },
   ].map((lead) => ({
     id: createId("lead"),
@@ -141,18 +187,21 @@ export function createDemoState(): AppState {
       durationMinutes: 18,
       outcome: "convertido" as const,
       notes: "Cierra plan anual. Enviar contrato.",
+      date: daysAgo(5, 16),
     },
     {
       leadId: laura.id,
       durationMinutes: 12,
       outcome: "interesado" as const,
       notes: "Quiere ver el tablero con su equipo el jueves.",
+      date: daysAgo(4, 12),
     },
     {
       leadId: carlos.id,
       durationMinutes: 0,
       outcome: "buzon" as const,
       notes: "Dejar mensaje. Reintentar mañana.",
+      date: daysAgo(1, 9),
     },
   ].map((call) => ({
     id: createId("call"),
@@ -210,24 +259,7 @@ export function createDemoState(): AppState {
     leads,
     calls,
     pixels,
-    events: [
-      ...Array.from({ length: 36 }, (_, index) => ({
-        id: createId("evt"),
-        projectId,
-        pixelId: pixels[0].id,
-        type: "page_view" as const,
-        timestamp: stamp,
-        detail: index % 5 === 0 ? "Visita desde anuncio Meta" : "Visita a la landing pública",
-      })),
-      {
-        id: createId("evt"),
-        projectId,
-        pixelId: pixels[0].id,
-        type: "conversion" as const,
-        timestamp: stamp,
-        detail: "Lead convertido: Sofía Herrera",
-      },
-    ],
+    events: buildDemoEvents(projectId, pixels[0].id),
   };
 }
 

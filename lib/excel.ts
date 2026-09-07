@@ -148,7 +148,7 @@ export function buildLeadTemplate(): ArrayBuffer {
       Email: "ana@empresa.com",
       Telefono: "+34 600 111 222",
       Empresa: "Empresa Demo",
-      Fuente: "LinkedIn",
+      Fuente: "WhatsApp",
       Estado: "nuevo",
       Notas: "Pidió demo del producto",
     },
