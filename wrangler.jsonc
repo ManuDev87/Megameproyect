@@ -1,5 +1,4 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
   "name": "megameproyect",
   "main": ".open-next/worker.js",
   "compatibility_date": "2026-09-07",
@@ -9,9 +8,6 @@
     "directory": ".open-next/assets",
     "binding": "ASSETS"
   },
-  // Wrangler runs this before `deploy` and `versions upload`.
-  // Workers Builds preview uses `npx wrangler versions upload` and does not
-  // copy this into the dashboard Build command, but Wrangler still executes it.
   "build": {
     "command": "node scripts/cf-build.mjs"
   }

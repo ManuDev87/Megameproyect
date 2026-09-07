@@ -10,7 +10,10 @@
 # next.js
 /.next/
 /out/
-/.open-next/
+.open-next/*
+!.open-next/worker.js
+!.open-next/assets/
+!.open-next/assets/index.html
 .wrangler/
 
 # production
