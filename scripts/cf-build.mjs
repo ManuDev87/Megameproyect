@@ -3,7 +3,7 @@
  * use the dashboard Build command from wrangler.jsonc. Wrangler still runs
  * this custom build before upload, which must produce `.open-next/worker.js`.
  */
-import { existsSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -11,8 +11,10 @@ import { fileURLToPath } from "node:url";
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), "..");
 const workerJs = path.join(root, ".open-next", "worker.js");
 const nextDir = path.join(root, ".next");
+const workerSource = existsSync(workerJs) ? readFileSync(workerJs, "utf8") : "";
+const isPlaceholder = workerSource.includes("PIXLANZ_PLACEHOLDER");
 
-if (existsSync(workerJs)) {
+if (existsSync(workerJs) && !isPlaceholder) {
   console.log("[cf-build] .open-next/worker.js already present");
   process.exit(0);
 }
